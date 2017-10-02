@@ -2,7 +2,6 @@ package com.mannydev.rssalluanews;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.ListView;
 
 import com.mannydev.rssalluanews.model.Feed;
@@ -10,7 +9,7 @@ import com.mannydev.rssalluanews.model.adapters.FeedAdapter;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
     private ArrayList<Feed> feeds;
 
     @Override
@@ -24,12 +23,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lvFeed.setAdapter(feedAdapter);
     }
 
-    @Override
-    public void onClick(View view) {
-
-    }
-
-
     private void getFeeds() {
 
         Feed censorNet = new Feed();
@@ -38,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         censorNet.setUrlFeed("https://censor.net.ua/includes/news_ru.xml");
         censorNet.setUrlLogo("https://static.censor.net.ua/images/logo/ru/520x520.png");
         feeds.add(censorNet);
-
 
         Feed obozrevatel = new Feed();
         obozrevatel.setName("Обозреватель");
@@ -104,12 +96,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dwCom.setUrlLogo("https://2.bp.blogspot.com/-tx2NsnQyI04/WK-5yy0JzWI/AAAAAAAADBQ/A2Vd94Wt-PQJyMxGuItIWNB601w4XhcpwCK4B/s1600/DW-NEWS.png");
         feeds.add(dwCom);
 
-
         Feed kursComUa = new Feed();
         kursComUa.setName("Head News");
         kursComUa.setDescription("www.headnews.org");
         kursComUa.setUrlFeed("https://headnews.org/feed/");
         kursComUa.setUrlLogo("https://headnews.org/wp-content/uploads/2016/04/cropped-fav.png");
         feeds.add(kursComUa);
+
+        Feed rateApp = new Feed();
+        rateApp.setName("Оценить приложение");
+        rateApp.setDescription("Play Market");
+        rateApp.setUrlFeed("https://play.google.com/store/apps/details?id=com.mannydev.rssalluanews");
+        rateApp.setUrlLogo("https://cdn4.iconfinder.com/data/icons/small-n-flat/24/star-256.png");
+        feeds.add(rateApp);
     }
 }

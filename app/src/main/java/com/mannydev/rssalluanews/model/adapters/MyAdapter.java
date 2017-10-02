@@ -58,15 +58,18 @@ public class MyAdapter extends BaseAdapter {
 
         final RssItem item = getRss(position);
 
-        // заполняем View в пункте списка данными из товаров: наименование, цена
-        // и картинка
+        // заполняем View в пункте списка данными из Feed:
         ((TextView) view.findViewById(R.id.txtDate)).setText(item.getPubDate().toString());
         ((TextView) view.findViewById(R.id.txtTitle)).setText(item.getTitle());
-        ((TextView) view.findViewById(R.id.txtDescription)).setText(item.getDescription().replace("<p>", "").replace("</p>", "").replace("&quot;", ""));
+        ((TextView) view.findViewById(R.id.txtDescription))
+                .setText(item.getDescription()
+                        .replace("<p>", "")
+                        .replace("</p>", "").replace("&quot;", ""));
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(ctx, WebActivity.class);
                 intent.putExtra("url", item.getLink());
                 view.getContext().startActivity(intent);
@@ -77,7 +80,7 @@ public class MyAdapter extends BaseAdapter {
         return view;
     }
 
-    // товар по позиции
+    // Новость по позиции
     private RssItem getRss(int position) {
         return ((RssItem) getItem(position));
     }

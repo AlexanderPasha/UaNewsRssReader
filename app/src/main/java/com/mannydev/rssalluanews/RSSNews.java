@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mannydev.rssalluanews.RSS.RssFeed;
 import com.mannydev.rssalluanews.RSS.RssItem;
@@ -43,8 +44,7 @@ public class RSSNews extends AppCompatActivity {
         rssUrl = intent.getStringExtra("url");
         String logoUrl = intent.getStringExtra("logo");
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.INVISIBLE);
+
         ImageView imageLogo = (ImageView) findViewById(R.id.imageLogo);
         Picasso.with(this).load(logoUrl).fit().centerInside().into(imageLogo);
         ArrayList<RssItem> rssNews = new ArrayList<>();
@@ -63,6 +63,9 @@ public class RSSNews extends AppCompatActivity {
         }
 
         //Загружаем RSS
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        progressBar.setVisibility(View.VISIBLE);
         RSSAsyncLoad longTask = new RSSAsyncLoad(); // Создаем экземпляр
         longTask.execute();
 
@@ -74,7 +77,6 @@ public class RSSNews extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             finish();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -116,7 +118,9 @@ public class RSSNews extends AppCompatActivity {
             if (result != null) {
                 MyAdapter myAdapter = new MyAdapter(RSSNews.this, result);
                 lvMain.setAdapter(myAdapter);
-            }
+            } else
+                Toast.makeText(RSSNews.this, "Проверьте соединение с интернетом!", Toast.LENGTH_SHORT).show();
+
 
         }
     }
