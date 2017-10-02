@@ -8,8 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mannydev.rssalluanews.RSS.RssFeed;
@@ -21,18 +23,13 @@ import com.squareup.picasso.Picasso;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
 public class RSSNews extends AppCompatActivity {
-    ArrayList<RssItem>rssNews;
-    TextView textView, textTitle;
-    ListView lvMain;
-    MyAdapter myAdapter;
-    Toolbar toolbar;
-    String rssUrl, newsTittle,logoUrl;
-    ImageView imageLogo;
+    private ListView lvMain;
+    private String rssUrl;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -42,23 +39,24 @@ public class RSSNews extends AppCompatActivity {
 
         //Получаем данные из MainActivity
         Intent intent = getIntent();
-        newsTittle = intent.getStringExtra("title");
+        String newsTittle = intent.getStringExtra("title");
         rssUrl = intent.getStringExtra("url");
-        logoUrl = intent.getStringExtra("logo");
+        String logoUrl = intent.getStringExtra("logo");
 
-
-        imageLogo = (ImageView) findViewById(R.id.imageLogo);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
+        ImageView imageLogo = (ImageView) findViewById(R.id.imageLogo);
         Picasso.with(this).load(logoUrl).fit().centerInside().into(imageLogo);
-        rssNews = new ArrayList<>();
-        textView = new TextView(this);
-        textTitle = (TextView)findViewById(R.id.textTitle);
+        ArrayList<RssItem> rssNews = new ArrayList<>();
+        TextView textView = new TextView(this);
+        TextView textTitle = (TextView) findViewById(R.id.textTitle);
         textTitle.setText(newsTittle);
         lvMain = (ListView) findViewById(R.id.lvMain);
-        toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
         // Добавляем кнопку "Назад"
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
@@ -84,13 +82,14 @@ public class RSSNews extends AppCompatActivity {
     class RSSAsyncLoad extends AsyncTask<Void, Void, ArrayList<RssItem>> {
 
 
-        private URL url;
         String urlLink;
+        private URL url;
         private ArrayList<RssItem> rssItems;
 
         @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             urlLink = rssUrl;
+            progressBar.setVisibility(View.VISIBLE);
 
         }
 
@@ -99,15 +98,10 @@ public class RSSNews extends AppCompatActivity {
 
             try {
                 Log.v("Logs", "Пробуем загрузить ленту");
-                //url = new URL("http://feeds.bbci.co.uk/news/world/rss.xml");
                 url = new URL(urlLink);
                 RssFeed feed = RssReader.read(url);
                 rssItems = feed.getRssItems();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (SAXException | IOException e) {
                 e.printStackTrace();
             }
 
@@ -118,8 +112,9 @@ public class RSSNews extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<RssItem> result) {
             Log.v("myLogs", "Список обновлен!");
-            if(result!=null){
-                myAdapter = new MyAdapter(RSSNews.this, result);
+            progressBar.setVisibility(View.INVISIBLE);
+            if (result != null) {
+                MyAdapter myAdapter = new MyAdapter(RSSNews.this, result);
                 lvMain.setAdapter(myAdapter);
             }
 

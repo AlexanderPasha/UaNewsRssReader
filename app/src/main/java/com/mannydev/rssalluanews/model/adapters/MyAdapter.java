@@ -2,7 +2,6 @@ package com.mannydev.rssalluanews.model.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,13 @@ import com.mannydev.rssalluanews.WebActivity;
 import java.util.ArrayList;
 
 /**
- * Created by manny on 26.09.17.
+ * Адаптер для отображения новостей
  */
 
 public class MyAdapter extends BaseAdapter {
-    Context ctx;
-    LayoutInflater lInflater;
-    ArrayList<RssItem> objects;
+    private final Context ctx;
+    private final LayoutInflater lInflater;
+    private final ArrayList<RssItem> objects;
 
     public MyAdapter(Context context, ArrayList<RssItem> itemsList) {
         ctx = context;
@@ -30,6 +29,7 @@ public class MyAdapter extends BaseAdapter {
         lInflater = (LayoutInflater) ctx
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
     @Override
     public int getCount() {
         return objects.size();
@@ -49,7 +49,6 @@ public class MyAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
 
-
         // используем созданные, но не используемые view
         View view = convertView;
         if (view == null) {
@@ -63,14 +62,13 @@ public class MyAdapter extends BaseAdapter {
         // и картинка
         ((TextView) view.findViewById(R.id.txtDate)).setText(item.getPubDate().toString());
         ((TextView) view.findViewById(R.id.txtTitle)).setText(item.getTitle());
-        ((TextView) view.findViewById(R.id.txtDescription)).setText(item.getDescription().replace("<p>","").replace("</p>","").replace("&quot;",""));
+        ((TextView) view.findViewById(R.id.txtDescription)).setText(item.getDescription().replace("<p>", "").replace("</p>", "").replace("&quot;", ""));
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = item.getLink();
                 Intent intent = new Intent(ctx, WebActivity.class);
-                intent.putExtra("url",item.getLink());
+                intent.putExtra("url", item.getLink());
                 view.getContext().startActivity(intent);
 
             }
@@ -78,8 +76,9 @@ public class MyAdapter extends BaseAdapter {
 
         return view;
     }
+
     // товар по позиции
-    public RssItem getRss(int position) {
+    private RssItem getRss(int position) {
         return ((RssItem) getItem(position));
     }
 }

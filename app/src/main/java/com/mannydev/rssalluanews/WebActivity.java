@@ -12,15 +12,15 @@ import android.webkit.WebViewClient;
  */
 
 public class WebActivity extends AppCompatActivity {
-    String url;
-    WebView mWebView;
+    private WebView mWebView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
         Intent intent = getIntent();
-        url = intent.getStringExtra("url");
-        Log.v("myLogs","Url: "+url);
+        String url = intent.getStringExtra("url");
+        Log.v("myLogs", "Url: " + url);
 
         mWebView = (WebView) findViewById(R.id.webView);
         mWebView.setWebViewClient(new MyWebViewClient());
@@ -32,7 +32,7 @@ public class WebActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(mWebView.canGoBack()) {
+        if (mWebView.canGoBack()) {
             mWebView.goBack();
         } else {
             super.onBackPressed();
@@ -40,11 +40,9 @@ public class WebActivity extends AppCompatActivity {
     }
 }
 
-class MyWebViewClient extends WebViewClient
-{
+class MyWebViewClient extends WebViewClient {
     @Override
-    public boolean shouldOverrideUrlLoading(WebView view, String url)
-    {
+    public boolean shouldOverrideUrlLoading(WebView view, String url) {
         view.loadUrl(url);
         return true;
     }

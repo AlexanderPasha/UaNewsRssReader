@@ -37,16 +37,16 @@ public class RssReader {
 
     public static RssFeed read(URL url) throws SAXException, IOException {
         RssFeed feed = read(url.openStream());
-        if(feed!=null){
-            Log.v(TAG,"feed не пустой");
-        }else Log.v(TAG,"feed пустой");
+        if (feed != null) {
+            Log.v(TAG, "feed не пустой");
+        } else Log.v(TAG, "feed пустой");
 
 
         return feed;
 
     }
 
-    public static RssFeed read(InputStream stream) throws SAXException, IOException {
+    private static RssFeed read(InputStream stream) throws SAXException, IOException {
 
         try {
 
@@ -56,9 +56,7 @@ public class RssReader {
             RssHandler handler = new RssHandler();
             InputSource input = new InputSource(stream);
 
-            if(input!=null){
-                Log.v(TAG,"input не пустой");
-            }else Log.v(TAG,"input пустой");
+            Log.v(TAG, "input не пустой");
 
             reader.setContentHandler(handler);
             reader.parse(input);
@@ -66,7 +64,7 @@ public class RssReader {
             return handler.getResult();
 
         } catch (ParserConfigurationException e) {
-            Log.v(TAG,"Ошибка здесь!"+e);
+            Log.v(TAG, "Ошибка здесь!" + e);
             throw new SAXException();
         }
 
@@ -74,9 +72,9 @@ public class RssReader {
 
     public static RssFeed read(String source) throws SAXException, IOException {
         RssFeed feed = read(new ByteArrayInputStream(source.getBytes()));
-        if(feed!=null){
-            Log.v(TAG,"feed не пустой");
-        }else Log.v(TAG,"feed пустой");
+        if (feed != null) {
+            Log.v(TAG, "feed не пустой");
+        } else Log.v(TAG, "feed пустой");
 
         return feed;
     }

@@ -17,13 +17,13 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 /**
- * Created by manny on 26.09.17.
+ * Адаптер для отображения новостных лент
  */
 
 public class FeedAdapter extends BaseAdapter {
-    Context ctx;
-    LayoutInflater lInflater;
-    ArrayList<Feed> objects;
+    private final Context ctx;
+    private final LayoutInflater lInflater;
+    private final ArrayList<Feed> objects;
 
     public FeedAdapter(Context context, ArrayList<Feed> itemsList) {
         ctx = context;
@@ -31,6 +31,7 @@ public class FeedAdapter extends BaseAdapter {
         lInflater = (LayoutInflater) ctx
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
     @Override
     public int getCount() {
         return objects.size();
@@ -50,7 +51,6 @@ public class FeedAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
 
-
         // используем созданные, но не используемые view
         View view = convertView;
         if (view == null) {
@@ -63,14 +63,14 @@ public class FeedAdapter extends BaseAdapter {
         // заполняем View в пункте списка данными из товаров: наименование, цена
         // и картинка
         Picasso.with(ctx).load(item.getUrlLogo()).fit().centerInside().into((ImageView) view.findViewById(R.id.imageLogo));
-        ((TextView) view.findViewById(R.id.txtName)).setText(item.getName().toString());
+        ((TextView) view.findViewById(R.id.txtName)).setText(item.getName());
         ((TextView) view.findViewById(R.id.txtDescription)).setText(item.getDescription());
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ctx, RSSNews.class);
-                intent.putExtra("url",item.getUrlFeed());
+                intent.putExtra("url", item.getUrlFeed());
                 intent.putExtra("title", item.getName());
                 intent.putExtra("logo", item.getUrlLogo());
                 view.getContext().startActivity(intent);
@@ -80,8 +80,9 @@ public class FeedAdapter extends BaseAdapter {
 
         return view;
     }
+
     // товар по позиции
-    public Feed getRss(int position) {
+    private Feed getRss(int position) {
         return ((Feed) getItem(position));
     }
 }

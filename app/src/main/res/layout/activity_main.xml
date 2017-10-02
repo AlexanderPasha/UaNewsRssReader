@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:paddingTop="10dp"
-        android:textSize="20dp"
         android:layout_gravity="center_vertical"
+        android:paddingTop="10dp"
+        android:text="@string/main_string"
         android:textAlignment="center"
         android:textColor="@color/background"
-        android:textStyle="bold"
-        android:text="Выбери новостной портал:" />
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/lvFeeds"

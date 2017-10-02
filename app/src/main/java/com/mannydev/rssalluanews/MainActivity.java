@@ -1,7 +1,7 @@
 package com.mannydev.rssalluanews;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ListView;
 
@@ -10,18 +10,17 @@ import com.mannydev.rssalluanews.model.adapters.FeedAdapter;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    Feed factyUa,ligaNet,lbUa,rbcUa,radioSvoboda,unianNet,stranaUa,dwCom,kursComUa,obozrevatel,censorNet;
-    ListView lvFeed;
-    ArrayList<Feed>feeds;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private ArrayList<Feed> feeds;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        lvFeed = (ListView)findViewById(R.id.lvFeeds);
+        ListView lvFeed = (ListView) findViewById(R.id.lvFeeds);
         feeds = new ArrayList<>();
         getFeeds();
-        FeedAdapter feedAdapter = new FeedAdapter(this,feeds);
+        FeedAdapter feedAdapter = new FeedAdapter(this, feeds);
         lvFeed.setAdapter(feedAdapter);
     }
 
@@ -31,9 +30,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public void getFeeds(){
+    private void getFeeds() {
 
-        censorNet = new Feed();
+        Feed censorNet = new Feed();
         censorNet.setName("ЦЕНЗОР.НЕТ");
         censorNet.setDescription("www.censor.net.ua");
         censorNet.setUrlFeed("https://censor.net.ua/includes/news_ru.xml");
@@ -41,56 +40,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         feeds.add(censorNet);
 
 
-        obozrevatel = new Feed();
+        Feed obozrevatel = new Feed();
         obozrevatel.setName("Обозреватель");
         obozrevatel.setDescription("www.obozrevatel.com");
         obozrevatel.setUrlFeed("https://www.obozrevatel.com/rss.xml");
         obozrevatel.setUrlLogo("https://lh3.googleusercontent.com/iTz5sSBr9mWKy0xUpJAqmI1DqWVj5CDfNxVejTImM5dNEK1gAgmOQNptYycMiHAvGA=w300");
         feeds.add(obozrevatel);
 
-        factyUa = new Feed();
+        Feed factyUa = new Feed();
         factyUa.setName("Факты UA");
         factyUa.setDescription("www.fakty.ua");
         factyUa.setUrlFeed("http://fakty.ua/rss_feed/ukraina");
         factyUa.setUrlLogo("https://lh3.googleusercontent.com/TvMiGwZFlv88LXZi_ru0Qr6SVK05Nn0RA645vWO0R3lV3uTGuzBE3w5PPEsLaed4aPI=w300");
         feeds.add(factyUa);
 
-        ligaNet = new Feed();
+        Feed ligaNet = new Feed();
         ligaNet.setName("Лига NET");
         ligaNet.setDescription("www.news.liga.net");
         ligaNet.setUrlFeed("http://news.liga.net/ua/all/rss.xml");
         ligaNet.setUrlLogo("https://images.apester.com/user-images%2F7b%2F7b0bbedfd0aefc8f0c6567050dca4f59.png");
         feeds.add(ligaNet);
 
-        lbUa = new Feed();
+        Feed lbUa = new Feed();
         lbUa.setName("LB.UA");
         lbUa.setDescription("www.lb.ua");
         lbUa.setUrlFeed("https://lb.ua/rss/rus/news.xml");
         lbUa.setUrlLogo("https://pbs.twimg.com/profile_images/446957846475710464/JLkf9fGY_400x400.jpeg");
         feeds.add(lbUa);
 
-        rbcUa = new Feed();
+        Feed rbcUa = new Feed();
         rbcUa.setName("РБК UA");
         rbcUa.setDescription("www.rbc.ua");
         rbcUa.setUrlFeed("https://www.rbc.ua/static/rss/newsline.rus.rss.xml");
         rbcUa.setUrlLogo("https://www.2000.ua/modules/pages/pictures/1000x1000/12216_a408b893102d36bcc7a27db9a6f67c30_4090.png");
         feeds.add(rbcUa);
 
-        stranaUa = new Feed();
+        Feed stranaUa = new Feed();
         stranaUa.setName("Страна UA");
         stranaUa.setDescription("www.strana.ua");
         stranaUa.setUrlFeed("https://strana.ua/xml/rss.xml");
         stranaUa.setUrlLogo("https://yt3.ggpht.com/-JHvrqVg6uqo/AAAAAAAAAAI/AAAAAAAAAAA/UYdQxD3OtI4/s900-c-k-no-mo-rj-c0xffffff/photo.jpg");
         feeds.add(stranaUa);
 
-        radioSvoboda = new Feed();
+        Feed radioSvoboda = new Feed();
         radioSvoboda.setName("Радио Свобода");
         radioSvoboda.setDescription("www.radiosvoboda.org");
         radioSvoboda.setUrlFeed("https://www.radiosvoboda.org/api/zrqiteuuir");
         radioSvoboda.setUrlLogo("https://www.svoboda.org/Content/responsive/RFE/img/top_logo_news.png");
         feeds.add(radioSvoboda);
 
-        unianNet = new Feed();
+        Feed unianNet = new Feed();
         unianNet.setName("УНИАН");
         unianNet.setDescription("www.unian.net");
         unianNet.setUrlFeed("https://rss.unian.net/site/news_rus.rss");
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         feeds.add(unianNet);
 
 
-        dwCom = new Feed();
+        Feed dwCom = new Feed();
         dwCom.setName("DW.COM");
         dwCom.setDescription("www.dw.com");
         dwCom.setUrlFeed("http://partner.dw.com/xml/rss-ru-news");
@@ -106,8 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         feeds.add(dwCom);
 
 
-
-        kursComUa = new Feed();
+        Feed kursComUa = new Feed();
         kursComUa.setName("Head News");
         kursComUa.setDescription("www.headnews.org");
         kursComUa.setUrlFeed("https://headnews.org/feed/");
