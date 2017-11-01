@@ -15,6 +15,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.mannydev.rssalluanews.RSS.RssFeed;
 import com.mannydev.rssalluanews.RSS.RssItem;
 import com.mannydev.rssalluanews.RSS.RssReader;
@@ -27,16 +29,23 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+
 public class RSSNews extends AppCompatActivity {
     private ListView lvMain;
     private String rssUrl;
     private ProgressBar progressBar;
+    private AdView mAdView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rss_lenta);
+        setContentView(R.layout.activity_news);
+        mAdView = findViewById(R.id.adView);
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         //Получаем данные из MainActivity
         Intent intent = getIntent();
@@ -45,28 +54,32 @@ public class RSSNews extends AppCompatActivity {
         String logoUrl = intent.getStringExtra("logo");
 
 
-        ImageView imageLogo = (ImageView) findViewById(R.id.imageLogo);
-        Picasso.with(this).load(logoUrl).fit().centerInside().into(imageLogo);
+        ImageView imageLogo = findViewById(R.id.imageLogo);
+        Picasso.with(this).load(logoUrl)
+                .transform(new CropCircleTransformation())
+                .fit()
+                .centerInside()
+                .into(imageLogo);
         ArrayList<RssItem> rssNews = new ArrayList<>();
         TextView textView = new TextView(this);
-        TextView textTitle = (TextView) findViewById(R.id.textTitle);
+        TextView textTitle = findViewById(R.id.textTitle);
         textTitle.setText(newsTittle);
-        lvMain = (ListView) findViewById(R.id.lvMain);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        lvMain = findViewById(R.id.lvMain);
+        Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
         // Добавляем кнопку "Назад"
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         }
 
-        //Загружаем RSS
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        progressBar = findViewById(R.id.progressBar);
 
         progressBar.setVisibility(View.VISIBLE);
-        RSSAsyncLoad longTask = new RSSAsyncLoad(); // Создаем экземпляр
+        RSSAsyncLoad longTask = new RSSAsyncLoad();
         longTask.execute();
 
     }
@@ -80,6 +93,38 @@ public class RSSNews extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Called when leaving the activity
+     */
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+    /**
+     * Called when returning to the activity
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    /**
+     * Called before the activity is destroyed
+     */
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
 
     class RSSAsyncLoad extends AsyncTask<Void, Void, ArrayList<RssItem>> {
 
@@ -120,8 +165,6 @@ public class RSSNews extends AppCompatActivity {
                 lvMain.setAdapter(myAdapter);
             } else
                 Toast.makeText(RSSNews.this, "Проверьте соединение с интернетом!", Toast.LENGTH_SHORT).show();
-
-
         }
     }
 }

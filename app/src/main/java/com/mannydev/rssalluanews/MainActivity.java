@@ -2,10 +2,13 @@ package com.mannydev.rssalluanews;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ListView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
+import com.google.android.gms.ads.MobileAds;
 import com.mannydev.rssalluanews.model.Feed;
-import com.mannydev.rssalluanews.model.adapters.FeedAdapter;
+import com.mannydev.rssalluanews.model.adapters.FeedsAdapter;
+import com.mannydev.rssalluanews.model.adapters.SpacesItemDecoration;
 
 import java.util.ArrayList;
 
@@ -15,18 +18,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ListView lvFeed = (ListView) findViewById(R.id.lvFeeds);
+        MobileAds.initialize(getApplicationContext(),
+                "ca-app-pub-8078146669032188~3449653135");
+        setContentView(R.layout.activity_main_feeds);
         feeds = new ArrayList<>();
         getFeeds();
-        FeedAdapter feedAdapter = new FeedAdapter(this, feeds);
-        lvFeed.setAdapter(feedAdapter);
+        RecyclerView rvFeeds = findViewById(R.id.rvFeeds);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        rvFeeds.setLayoutManager(mLayoutManager);
+
+        SpacesItemDecoration decoration = new SpacesItemDecoration(1);
+        rvFeeds.addItemDecoration(decoration);
+
+        FeedsAdapter adapter = new FeedsAdapter(feeds);
+        rvFeeds.setAdapter(adapter);
     }
 
     private void getFeeds() {
 
         Feed censorNet = new Feed();
-        censorNet.setName("ЦЕНЗОР.НЕТ");
+        censorNet.setName("Цензор.НЕТ");
         censorNet.setDescription("www.censor.net.ua");
         censorNet.setUrlFeed("https://censor.net.ua/includes/news_ru.xml");
         censorNet.setUrlLogo("https://static.censor.net.ua/images/logo/ru/520x520.png");
@@ -82,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         feeds.add(radioSvoboda);
 
         Feed unianNet = new Feed();
-        unianNet.setName("УНИАН");
+        unianNet.setName("Униан");
         unianNet.setDescription("www.unian.net");
         unianNet.setUrlFeed("https://rss.unian.net/site/news_rus.rss");
         unianNet.setUrlLogo("https://www.goldmir.net/uploads/tv/channel/296/logo_big.jpg");

@@ -105,17 +105,17 @@ public class RssItem implements Comparable<RssItem>, Parcelable {
         return pubDate;
     }
 
-    public void setPubDate(Date pubDate) {
-        this.pubDate = pubDate;
-    }
-
     public void setPubDate(String pubDate) {
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ROOT);
             this.pubDate = dateFormat.parse(pubDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setPubDate(Date pubDate) {
+        this.pubDate = pubDate;
     }
 
     public String getDescription() {

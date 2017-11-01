@@ -52,7 +52,7 @@ public class MyAdapter extends BaseAdapter {
         // используем созданные, но не используемые view
         View view = convertView;
         if (view == null) {
-            view = lInflater.inflate(R.layout.item, parent, false);
+            view = lInflater.inflate(R.layout.item_constraint, parent, false);
         }
 
 
@@ -60,11 +60,11 @@ public class MyAdapter extends BaseAdapter {
 
         // заполняем View в пункте списка данными из Feed:
         ((TextView) view.findViewById(R.id.txtDate)).setText(item.getPubDate().toString());
-        ((TextView) view.findViewById(R.id.txtTitle)).setText(item.getTitle());
+        ((TextView) view.findViewById(R.id.txtTitle)).setText(item.getTitle().trim());
         ((TextView) view.findViewById(R.id.txtDescription))
                 .setText(item.getDescription()
                         .replace("<p>", "")
-                        .replace("</p>", "").replace("&quot;", ""));
+                        .replace("</p>", "").replace("&quot;", "").trim());
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
